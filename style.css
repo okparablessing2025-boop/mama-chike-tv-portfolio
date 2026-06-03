@@ -565,6 +565,71 @@ a:hover {
     transform: translateY(-2px);
 }
 
+.contact-action-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+    padding: 2rem;
+}
+
+.contact-action-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.78);
+}
+
+.contact-action-panel {
+    position: relative;
+    width: min(520px, 100%);
+    background: rgba(9, 9, 14, 0.98);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+    padding: 2.4rem;
+    text-align: center;
+    z-index: 1;
+}
+
+.contact-action-panel h2 {
+    margin-bottom: 0.75rem;
+    color: var(--text-white);
+}
+
+.contact-action-panel p {
+    color: var(--text-medium-gray);
+    margin-bottom: 1.6rem;
+}
+
+.contact-action-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.contact-action-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-white);
+    font-size: 1.5rem;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.contact-action-close:hover {
+    background: rgba(255, 255, 255, 0.14);
+}
+
 /* Scroll Indicator */
 .scroll-indicator {
     position: absolute;
@@ -816,6 +881,97 @@ a:hover {
     line-height: 1.85;
 }
 
+.brand-collab-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+}
+
+.brand-collab-header h3 {
+    font-size: 1.08rem;
+    color: var(--text-white);
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.contact-me-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 12px;
+    background: rgba(31, 182, 255, 0.15);
+    color: var(--accent-light);
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.contact-me-btn:hover {
+    background: rgba(31, 182, 255, 0.25);
+    transform: scale(1.08);
+}
+
+.contact-me-btn:active {
+    transform: scale(0.95);
+}
+
+.brand-collab-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height var(--transition-normal), opacity var(--transition-normal);
+}
+
+.brand-collab-options.visible {
+    max-height: 200px;
+    opacity: 1;
+}
+
+.collab-option {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.85rem 1rem;
+    border-radius: 10px;
+    background: rgba(31, 182, 255, 0.08);
+    color: var(--accent-light);
+    text-decoration: none;
+    transition: all var(--transition-normal);
+    border: 1px solid rgba(31, 182, 255, 0.15);
+}
+
+.collab-option:hover {
+    background: rgba(31, 182, 255, 0.15);
+    border-color: rgba(31, 182, 255, 0.3);
+    transform: translateX(6px);
+}
+
+.collab-option i {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.collab-option span {
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
 .about-stats {
     display: grid;
     grid-template-columns: repeat(3, minmax(120px, 1fr));
@@ -883,6 +1039,12 @@ a:hover {
     transform: translateY(-6px);
     box-shadow: 0 25px 60px rgba(0, 0, 0, 0.22);
     border-color: rgba(255, 255, 255, 0.16);
+}
+
+.card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
 }
 
 .card-image {
@@ -1221,6 +1383,10 @@ a:hover {
 }
 
 /* -------- CONTACT SECTION -------- */
+#contact {
+    margin-bottom: 2.5rem;
+}
+
 .contact {
     background: #0d0d0d;
     padding: 5rem 0;
@@ -1330,6 +1496,43 @@ a:hover {
     background: rgba(244, 67, 54, 0.1);
     color: #f44336;
     display: block;
+}
+
+.contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    background: rgba(255, 255, 255, 0.04);
+    padding: 2rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.contact-details h3 {
+    color: var(--text-white);
+    margin-bottom: 0.5rem;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.detail-item strong {
+    color: var(--text-white);
+    font-size: 0.95rem;
+}
+
+.detail-item a {
+    color: var(--accent-light);
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color var(--transition-normal);
+}
+
+.detail-item a:hover {
+    color: #ffffff;
 }
 
 /* -------- FOOTER -------- */
@@ -1626,6 +1829,27 @@ a:hover {
         font-size: 1.6rem;
     }
 
+    .brand-collab-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.8rem;
+    }
+
+    .contact-me-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
+    .collab-option {
+        padding: 0.75rem 0.8rem;
+        font-size: 0.9rem;
+    }
+
+    .collab-option i {
+        font-size: 1rem;
+    }
+
     /* Content/Gallery Grid - stack vertically */
     .content-grid {
         grid-template-columns: 1fr;
@@ -1684,6 +1908,10 @@ a:hover {
     }
 
     .contact-form {
+        padding: 1.5rem;
+    }
+
+    .contact-details {
         padding: 1.5rem;
     }
 
@@ -1826,6 +2054,21 @@ a:hover {
         font-size: 1.3rem;
     }
 
+    .contact-me-btn {
+        width: 38px;
+        height: 38px;
+        font-size: 0.95rem;
+    }
+
+    .collab-option {
+        padding: 0.65rem 0.7rem;
+        font-size: 0.85rem;
+    }
+
+    .collab-option i {
+        font-size: 0.95rem;
+    }
+
     /* Grids */
     .content-grid {
         gap: 1rem;
@@ -1879,6 +2122,10 @@ a:hover {
     .contact-form {
         padding: 1.2rem;
         gap: 0.8rem;
+    }
+
+    .contact-details {
+        padding: 1.2rem;
     }
 
     .form-group input,

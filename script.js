@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeCounters();
     initializeBackToTop();
     initializeContactForm();
+    initializeServiceCards();
+    initializeBrandCollaboration();
 });
 
 // -------- LOADER --------
@@ -455,11 +457,12 @@ function initializeContactForm() {
         // Get form values
         const name = document.getElementById('name').value.trim();
         const email = document.getElementById('email').value.trim();
+        const subject = document.getElementById('subject').value.trim();
         const message = document.getElementById('message').value.trim();
         const formMessage = document.getElementById('formMessage');
         
         // Validation
-        if (!name || !email || !message) {
+        if (!name || !email || !subject || !message) {
             showFormMessage('Please fill in all fields', 'error', formMessage);
             return;
         }
@@ -471,8 +474,7 @@ function initializeContactForm() {
             return;
         }
         
-        // Simulate form submission
-        submitForm(name, email, message, formMessage);
+        submitForm(formMessage);
     });
     
     /**
@@ -499,19 +501,129 @@ function initializeContactForm() {
      * @param {string} message - User message
      * @param {HTMLElement} formMessage - Message container
      */
-    function submitForm(name, email, message, formMessage) {
-        // Simulate API request with setTimeout
-        setTimeout(() => {
-            // Log the form data (in production, send to backend)
-            console.log('Form submitted:', { name, email, message });
-            
-            // Show success message
+    function submitForm(formMessage) {
+        const endpoint = contactForm.action;
+        const formData = new FormData(contactForm);
+
+        fetch(endpoint, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'text/html'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(() => {
+            console.log('Form submitted:', Object.fromEntries(formData.entries()));
             showFormMessage('✓ Message sent successfully! I\'ll get back to you soon.', 'success', formMessage);
-            
-            // Reset form
             contactForm.reset();
-        }, 1000);
+        })
+        .catch(error => {
+            console.error('Form submission error:', error);
+            showFormMessage('Sorry, something went wrong. Please try again later.', 'error', formMessage);
+        });
     }
+}
+
+// -------- SERVICE CARD CONTACT ACTIONS --------
+function initializeServiceCards() {
+    const whatsappUrl = 'https://wa.me/2349138881511';
+    const emailUrl = 'mailto:Nexione03@gmail.com';
+    const modal = document.getElementById('contactActionModal');
+    const backdrop = document.getElementById('contactActionBackdrop');
+    const closeButton = document.getElementById('contactActionClose');
+    const clickableServiceCards = document.querySelectorAll('.service-card[data-service]');
+
+    function openModal() {
+        if (!modal) return;
+        modal.setAttribute('aria-hidden', 'false');
+        modal.style.display = 'flex';
+    }
+
+    function closeModal() {
+        if (!modal) return;
+        modal.setAttribute('aria-hidden', 'true');
+        modal.style.display = 'none';
+    }
+
+    function handleCardAction() {
+        window.open(whatsappUrl, '_blank', 'noopener');
+        openModal();
+    }
+
+    clickableServiceCards.forEach(card => {
+        card.addEventListener('click', handleCardAction);
+        card.addEventListener('keydown', event => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                handleCardAction();
+            }
+        });
+    });
+
+    if (closeButton) {
+        closeButton.addEventListener('click', closeModal);
+    }
+
+    if (backdrop) {
+        backdrop.addEventListener('click', closeModal);
+    }
+
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape') {
+            closeModal();
+        }
+    });
+}
+
+// -------- BRAND COLLABORATION INTERACTIVE CARD --------
+/**
+ * Initializes the brand collaboration card with toggle functionality
+ * When Contact Me button is clicked, reveals WhatsApp and Email options
+ */
+function initializeBrandCollaboration() {
+    const contactBtn = document.getElementById('brandCollabContactBtn');
+    const optionsContainer = document.getElementById('brandCollabOptions');
+
+    if (!contactBtn || !optionsContainer) {
+        return;
+    }
+
+    // Toggle visibility of contact options
+    contactBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const isVisible = optionsContainer.classList.contains('visible');
+        
+        if (isVisible) {
+            optionsContainer.classList.remove('visible');
+            contactBtn.setAttribute('aria-expanded', 'false');
+        } else {
+            optionsContainer.classList.add('visible');
+            contactBtn.setAttribute('aria-expanded', 'true');
+        }
+    });
+
+    // Close options when clicking outside the card
+    document.addEventListener('click', function(e) {
+        const card = document.querySelector('.brand-collaboration');
+        if (card && !card.contains(e.target) && optionsContainer.classList.contains('visible')) {
+            optionsContainer.classList.remove('visible');
+            contactBtn.setAttribute('aria-expanded', 'false');
+        }
+    });
+
+    // Keyboard accessibility: close on Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && optionsContainer.classList.contains('visible')) {
+            optionsContainer.classList.remove('visible');
+            contactBtn.setAttribute('aria-expanded', 'false');
+        }
+    });
 }
 
 // -------- ACCESSIBILITY IMPROVEMENTS --------
